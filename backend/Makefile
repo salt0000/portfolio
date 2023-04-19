@@ -76,6 +76,6 @@ require-dev:
 
 # Commands for altas
 inspect:
-	docker run --network=backend_default --rm -it arigaio/atlas:latest schema inspect -u "mysql://root:secret@mysql:3306/template" --format "{{ sql . }}" > docker/mysql/dev/schema.sql
+	docker run --network=backend_default --rm -it arigaio/atlas:latest schema inspect -u "mysql://root:secret@mysql:3306/portfolio" --format "{{ sql . }}" > docker/mysql/dev/schema.sql
 schemaspy:
-	docker run --network=backend_default --rm -v "$$PWD/schemaspy_output:/output" schemaspy/schemaspy:latest -t mysql -host mysql -port 3306 -db template -s template -u root -p secret -connprops useSSL\\=false
+	docker run --network=backend_default --rm -v "$$PWD/schemaspy_output:/output" schemaspy/schemaspy:latest -t mysql -host mysql -port 3306 -db portfolio -s portfolio -u root -p secret -connprops useSSL\\=false

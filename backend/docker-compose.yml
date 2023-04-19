@@ -33,7 +33,7 @@ services:
         source: mysql
         target: /var/lib/mysql 
     environment:
-      - MYSQL_DATABASE=template
+      - MYSQL_DATABASE=portfolio
       - MYSQL_ROOT_PASSWORD=secret
       - TZ=Asia/Tokyo
 
