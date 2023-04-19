@@ -1,0 +1,282 @@
+openapi: 3.1.0
+x-stoplight:
+  id: 0awatu3mezf31
+info:
+  title: oas
+  version: '1.0'
+  summary: template
+  contact: {}
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: 'http://localhost:8080'
+    description: local
+  - url: 'https://stg'
+    description: staging
+  - url: 'https://prd'
+    description: production
+paths:
+  /register:
+    post:
+      summary: ''
+      operationId: post-register
+      responses:
+        '200':
+          description: OK
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+  /logout:
+    post:
+      summary: ''
+      operationId: post-logout
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  /user:
+    parameters: []
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-user
+      description: Retrieve the information of the user with the matching user ID.
+    patch:
+      summary: Update User Information
+      operationId: patch-user
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the information of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: 'If a new email is given, the user''s email verified property will be set to false.'
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+components:
+  schemas:
+    Pagination:
+      title: Pagination
+      x-stoplight:
+        id: 0fixvoxjje54j
+      type: object
+      description: ''
+      properties:
+        links:
+          type: object
+          required:
+            - first
+            - last
+            - prev
+            - next
+          properties:
+            first:
+              type: string
+              example: 'http://laravel.app?page=1'
+              format: uri
+            last:
+              type: string
+              example: 'http://laravel.app?page=4'
+              format: uri
+            prev:
+              type: string
+              format: uri
+              example: 'http://laravel.app?page=1'
+            next:
+              type: string
+              example: 'http://laravel.app?page=3'
+              format: uri
+        meta:
+          type: object
+          required:
+            - current_page
+            - from
+            - last_page
+            - links
+            - path
+            - per_page
+            - to
+            - total
+          properties:
+            current_page:
+              type: integer
+              example: 2
+            from:
+              type: integer
+              example: 16
+            last_page:
+              type: integer
+              example: 4
+            links:
+              type: array
+              items:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                  label:
+                    type: string
+                  active:
+                    type: boolean
+                required:
+                  - url
+                  - label
+                  - active
+            path:
+              type: string
+              example: 'http://laravel.app'
+              format: uri
+            per_page:
+              type: integer
+              example: 15
+            to:
+              type: integer
+              example: 30
+            total:
+              type: integer
+              example: 50
+      required:
+        - links
+        - meta
+    TimeStamp:
+      allOf:
+        - $ref: '#/components/schemas/CreatedAt'
+        - type: object
+          properties:
+            updated_at:
+              type: string
+              format: date-time
+              description: TimeStamp
+          required:
+            - updated_at
+    CreatedAt:
+      title: TimeStamp
+      type: object
+      x-stoplight:
+        id: 13e9134ae352a
+      properties:
+        created_at:
+          type: string
+          description: TimeStamp
+          format: date-time
+      required:
+        - created_at
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+  parameters:
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        example: 1
+      description: for pagination
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer

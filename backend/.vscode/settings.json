@@ -1,0 +1,25 @@
+{
+    "[php]": {
+        "editor.wordSeparators": "`~!@#%^&*()-=+[{]}\\|;:'\",.<>/?"
+    },
+    "files.exclude": {
+        "api/phpunit.xml": true,
+        "api/vite.config.js": true,
+        "api/package.json": true,
+        "api/.gitattributes": true,
+        "api/.editorconfig": true,
+        "api/artisan": true,
+        "api/vendor": true,
+        "api/tests": true,
+        "api/README.md": true,
+        "api/**/.gitignore": true,
+        "api/composer.lock": true,
+        "api/resources": true,
+        "api/public": true,
+        "api/bootstrap": true,
+        "api/storage": true,
+        "api/lang": true,
+        "api/app/Console": true,
+        "api/app/Exceptions": true,
+    }
+}

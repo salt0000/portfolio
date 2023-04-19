@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+      "ms-azuretools.vscode-docker",
+      "xdebug.php-debug",
+      "bmewburn.vscode-intelephense-client",
+    ]
+}

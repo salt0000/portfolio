@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  cdk:
+    build:
+      context: .
+      dockerfile: ./docker/cdk/Dockerfile
+    volumes:
+      - type: bind
+        source: ./cdk
+        target: /cdk
+        consistency: delegated
+    tty: true
+    environment:
+      - AWS_CONFIG_FILE=/.aws/config
+      - AWS_SHARED_CREDENTIALS_FILE=/.aws/credentials

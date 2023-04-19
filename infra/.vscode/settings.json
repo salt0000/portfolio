@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        "cdk/cdk.out": true,
+        "cdk/node_modules": true,
+        "cdk/test": true,
+        "cdk/jest.config.js": true,
+        "cdk/.npmignore": true,
+        "cdk/package-lock.json": true,
+        "cdk/README.md": true,
+        "cdk/tsconfig.json": true,
+    }
+}

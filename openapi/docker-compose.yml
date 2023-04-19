@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+
+  redoc:
+    image: redocly/redoc
+    ports:
+      - "8888:80"
+    volumes:
+      - type: bind
+        source: ./stoplight-studio/reference
+        target: /usr/share/nginx/html/oas
+    environment:
+      SPEC_URL: /oas/oas.yaml
+
+  prism:
+    image: stoplight/prism:4.11.1
+    ports:
+      - "4010:4010"
+    volumes:
+      - type: bind
+        source: ./stoplight-studio/reference
+        target: /tmp
+    command: mock -h 0.0.0.0 /tmp/oas.yaml
