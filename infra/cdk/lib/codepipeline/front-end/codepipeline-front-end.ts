@@ -79,6 +79,10 @@ export class CodePipelineFrontEnd extends Construct {
         'CLOUDFRONT_DISTRIBUTION_ID': {
           value: `${staticWebsiteDistribution.distributionId}`,
           type: codebuild.BuildEnvironmentVariableType.PLAINTEXT
+        },
+        'REACT_ENV': {
+          value: '/react/env',
+          type: codebuild.BuildEnvironmentVariableType.PLAINTEXT
         }
       }
     });
@@ -100,6 +104,12 @@ export class CodePipelineFrontEnd extends Construct {
       resources: [
         `arn:aws:cloudfront::${Stack.of(this).account}:distribution/${staticWebsiteDistribution.distributionId}`,
       ]
+    }));
+    buildProject.addToRolePolicy(new iam.PolicyStatement({
+      actions: [
+        'ssm:GetParameter'
+      ],
+      resources: ['*'],
     }));
 
     return buildProject;
