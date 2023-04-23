@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { S3 } from './s3';
 import { CloudFront } from './cloudfront';
+import { ALB } from './alb';
 
 export class PortfolioStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -23,6 +24,10 @@ export class PortfolioStack extends cdk.Stack {
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC
         }
       ]
+    });
+
+    const alb = new ALB(this, 'alb', {
+      vpc: vpc
     });
   }
 }
