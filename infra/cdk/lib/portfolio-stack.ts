@@ -13,5 +13,16 @@ export class PortfolioStack extends cdk.Stack {
       staticWebsiteBucket: s3.staticWebsiteBucket,
       imageBucket: s3.imageBucket
     });
+
+    const vpc = new cdk.aws_ec2.Vpc(this, 'vpc', {
+      maxAzs: 2,
+      subnetConfiguration: [
+        {
+          name: 'Public',
+          cidrMask: 24,
+          subnetType: cdk.aws_ec2.SubnetType.PUBLIC
+        }
+      ]
+    });
   }
 }
