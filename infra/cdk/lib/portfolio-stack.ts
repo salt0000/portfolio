@@ -5,6 +5,7 @@ import { CloudFront } from './cloudfront';
 import { ALB } from './alb';
 import { ECS } from './ecs';
 import { CodePipelineFrontEnd } from './codepipeline/front-end/codepipeline-front-end';
+import { CodePipelineBackEnd } from './codepipeline/back-end/codepipeline-back-end';
 
 export class PortfolioStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -38,6 +39,10 @@ export class PortfolioStack extends cdk.Stack {
     new CodePipelineFrontEnd(this, 'codePipelineFrontEnd', {
       staticWebsiteBucket: s3.staticWebsiteBucket,
       staticWebsiteDistribution: cloudFront.staticWebsiteDistribution,
+      codePipelineArtifactBucket: s3.codePipelineArtifactBucket,
+    });
+    new CodePipelineBackEnd(this, 'codePipelineBackEnd', {
+      ecsService: ecs.service,
       codePipelineArtifactBucket: s3.codePipelineArtifactBucket,
     });
   }

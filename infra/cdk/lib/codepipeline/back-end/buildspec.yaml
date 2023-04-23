@@ -1,0 +1,43 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo CodeBuild started on `date`
+      - echo Define variables...
+
+      - ECR_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - REPOSITORY_NGINX_URI=${ECR_URI}/${SERVICE_NAME}-nginx
+      - REPOSITORY_PHP_URI=${ECR_URI}/${SERVICE_NAME}-php
+      - REPOSITORY_MYSQL_URI=${ECR_URI}/${SERVICE_NAME}-mysql
+
+      - echo Logging in to Amazon ECR and DockerHub...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_URI
+      - echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_ID --password-stdin
+
+      - echo Set up laravel...
+      - cd backend
+      - aws ssm get-parameter --with-decryption --name $LARAVEL_ENV --output text --query 'Parameter.Value' > api/.env
+
+  build:
+    commands:
+      - echo Building the Docker image...
+
+      - docker build -q -t $REPOSITORY_NGINX_URI:latest -t $REPOSITORY_NGINX_URI:$IMAGE_TAG -f docker/nginx/prod/Dockerfile .
+      - docker build -q -t $REPOSITORY_PHP_URI:latest -t $REPOSITORY_PHP_URI:$IMAGE_TAG -f docker/php/prod/Dockerfile .
+      - docker build -q -t $REPOSITORY_MYSQL_URI:latest -t $REPOSITORY_MYSQL_URI:$IMAGE_TAG -f docker/mysql/prod/Dockerfile .
+      
+  post_build:
+    commands:
+      - echo Pushing the Docker images...
+
+      - docker push -a -q $REPOSITORY_NGINX_URI
+      - docker push -a -q $REPOSITORY_PHP_URI
+      - docker push -a -q $REPOSITORY_MYSQL_URI
+
+      - echo Writing image definitions file...
+      - printf '[{"name":"nginx","imageUri":"%s"},{"name":"php","imageUri":"%s"},{"name":"mysql","imageUri":"%s"}]' $REPOSITORY_NGINX_URI:$IMAGE_TAG $REPOSITORY_PHP_URI:$IMAGE_TAG $REPOSITORY_MYSQL_URI:$IMAGE_TAG > ../imagedefinitions.json
+
+artifacts:
+    files: imagedefinitions.json
