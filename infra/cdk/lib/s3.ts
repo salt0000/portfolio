@@ -13,23 +13,22 @@ export class S3 extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.staticWebsiteBucket = new s3.Bucket(this, 'staticWebsiteBucket', {
+    this.staticWebsiteBucket = new s3.Bucket(this, '-staticWebsite-', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY
     });
 
-    this.imageBucket = new s3.Bucket(this, 'imageBucket', {
+    this.imageBucket = new s3.Bucket(this, '-image-', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY
     });
 
-    this.codePipelineArtifactBucket = new s3.Bucket(this, 'codePipelineArtifactBucket', {
+    this.codePipelineArtifactBucket = new s3.Bucket(this, '-codePipelineArtifact-', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY
     });
-
   }
 }
