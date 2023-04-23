@@ -36,6 +36,6 @@ RUN apt-get clean && \
 COPY ./docker/php/prod/php.ini /usr/local/etc/php/php.ini
 COPY ./api /usr/share/nginx/html/api
 
-RUN composer install -q --optimize-autoloader --no-dev $$ \
-    php artisan config:cache $$ \
+RUN composer install -q --optimize-autoloader --no-dev && \
+    php artisan config:cache && \
     php artisan route:cache
