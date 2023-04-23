@@ -42,7 +42,6 @@ export class ECS extends Construct {
     
     const ec2Instance = this.createEC2(props.vpc, props.albSG);
     ec2Instance.addUserData(
-      '#!/bin/bash',
       `echo ECS_CLUSTER=${cluster.clusterName} > /etc/ecs/ecs.config`
     );
 
@@ -118,6 +117,7 @@ export class ECS extends Construct {
     });
     nginxContainer.addLink(phpContainer, 'php');
   
+    // 環境変数に関しては後でparameter storeから取得できるようにする
     const mysqlContainer = taskDefinition.addContainer('mysqlContainer', {
       image: ecs.ContainerImage.fromRegistry('mysql:8.0.32'),
       containerName: 'mysql',
@@ -142,7 +142,7 @@ export class ECS extends Construct {
 
     return new ec2.Instance(this, 'ec2Instance', {
       machineImage: ecs.EcsOptimizedImage.amazonLinux2(),
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.SMALL),
       role: new iam.Role(this, 'role', {
         assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
         managedPolicies: [
