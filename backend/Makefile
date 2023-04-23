@@ -81,3 +81,21 @@ inspect:
 	docker run --network=backend_default --rm -it arigaio/atlas:latest schema inspect -u "mysql://root:secret@mysql:3306/portfolio" --format "{{ sql . }}" > docker/mysql/dev/schema.sql
 schemaspy:
 	docker run --network=backend_default --rm -v "$$PWD/schemaspy_output:/output" schemaspy/schemaspy:latest -t mysql -host mysql -port 3306 -db portfolio -s portfolio -u root -p secret -connprops useSSL\\=false
+
+
+up-prod:
+	docker build -f docker/nginx/prod/Dockerfile -t nginx .
+	docker build -f docker/php/prod/Dockerfile -t php .
+	docker build -f docker/mysql/prod/Dockerfile -t mysql .
+	docker network create prod
+	docker run --network=prod --rm -d --name php php:latest
+	docker run --network=prod --rm -d --name nginx -p 80:80 nginx:latest
+	docker run --network=prod --rm -d --name mysql mysql:latest
+down-prod:
+	docker stop php
+	docker stop nginx
+	docker stop mysql
+	docker network rm prod
+	docker image rm php:latest
+	docker image rm nginx:latest
+	docker image rm mysql:latest
