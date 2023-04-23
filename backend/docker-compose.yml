@@ -32,6 +32,9 @@ services:
       - type: volume
         source: mysql
         target: /var/lib/mysql 
+      - type: bind
+        source: ./docker/mysql/initdb.d
+        target: /docker-entrypoint-initdb.d
     environment:
       - MYSQL_DATABASE=portfolio
       - MYSQL_ROOT_PASSWORD=secret
