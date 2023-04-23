@@ -2,6 +2,7 @@
 
 ## 概要
 SPA構成のwebアプリ
+娯楽イベントの検索、詳細の確認ができるようにする予定
 
 まだただのcreate-react-appを表示させてただけ
 
@@ -19,10 +20,14 @@ https://saltportfolio.net/
   - ACMの設定
   - GithubとCodePipelineの認証設定
   - ec2のpemファイル作成
+※細かい部分は後で調整
 
 ## 作成予定の機能
 #### フロントエンド
 - react
+  - 認証
+  - api連携
+  - react routerを使ってコンポーネントの切り替え
 - mui
 
 #### バックエンド
