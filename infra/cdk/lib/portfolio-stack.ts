@@ -1,15 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { ECR } from './ecr';
 import { S3 } from './s3';
 import { CloudFront } from './cloudfront';
 import { ALB } from './alb';
+import { ECS } from './ecs';
 
 export class PortfolioStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-
-    new ECR(this, 'ecr');
     
     const s3 = new S3(this, 's3');
     const cloudFront = new CloudFront(this, 'cloudFront', {
@@ -29,6 +27,11 @@ export class PortfolioStack extends cdk.Stack {
     });
     const alb = new ALB(this, 'alb', {
       vpc: vpc
+    });
+    const ecs = new ECS(this, 'ecs', {
+      vpc: vpc,
+      albTG: alb.targetGroup,
+      albSG: alb.securityGroup,
     });
   }
 }
