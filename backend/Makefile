@@ -62,6 +62,8 @@ seed:
 	docker-compose exec php php artisan db:seed
 route:
 	docker-compose exec php php artisan route:list --except-vendor
+route-vendor:
+	docker-compose exec php php artisan route:list --only-vendor
 tinker:
 	docker-compose exec php php artisan tinker
 about:
