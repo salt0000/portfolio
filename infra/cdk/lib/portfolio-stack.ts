@@ -6,6 +6,7 @@ import { ALB } from './alb';
 import { ECS } from './ecs';
 import { CodePipelineFrontEnd } from './codepipeline/front-end/codepipeline-front-end';
 import { CodePipelineBackEnd } from './codepipeline/back-end/codepipeline-back-end';
+import { Route53 } from './route53';
 
 export class PortfolioStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -44,6 +45,12 @@ export class PortfolioStack extends cdk.Stack {
     new CodePipelineBackEnd(this, 'codePipelineBackEnd', {
       ecsService: ecs.service,
       codePipelineArtifactBucket: s3.codePipelineArtifactBucket,
+    });
+
+    new Route53(this, 'route53', {
+      staticWebsiteDistribution: cloudFront.staticWebsiteDistribution,
+      imageDistribution: cloudFront.imageDistribution,
+      alb: alb.alb,
     });
   }
 }
