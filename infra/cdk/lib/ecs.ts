@@ -153,7 +153,7 @@ export class ECS extends Construct {
       keyName: 'salt-portfolio',
       vpc: vpc,
       vpcSubnets: {
-        subnetType: ec2.SubnetType.PUBLIC,
+        subnets: vpc.publicSubnets,
       }
     });
   }
