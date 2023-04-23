@@ -13,7 +13,7 @@ export class S3 extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.staticWebsiteBucket = new s3.Bucket(this, '-staticWebsite-', {
+    this.staticWebsiteBucket = new s3.Bucket(this, '-1' + "staticWebsite\-", {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY
