@@ -33,9 +33,11 @@ mysql:
 
 # Commands for development
 crud:
-	docker-compose exec php php artisan make:model ${name} --factory --controller --api --requests --resource --policy
+	docker-compose exec php php artisan make:model ${name} --factory --controller --api --requests
 controller-invoke:
 	docker-compose exec php php artisan make:controller ${name}Controller --invokable
+controller:
+	docker-compose exec php php artisan make:controller ${name}Controller --api
 mail:
 	docker-compose exec php php artisan make:mail ${name}Mail
 provider:	
