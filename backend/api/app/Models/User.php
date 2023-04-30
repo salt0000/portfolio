@@ -32,6 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at'
     ];
 
     /**
@@ -42,4 +43,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function event() {
+        return $this->hasMany(Event::class);
+    }
+
+    public function events() {
+        return $this->belongsToMany(Event::class);
+    }
 }

@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('events', [EventController::class, 'index'])->name('event.index');
+Route::get('events/{event}', [EventController::class, 'show'])->name('event.show');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('user')->group(function () {
+        Route::get('', [UserController::class, 'show'])->name('user.show');
+        Route::patch('', [UserController::class, 'update'])->name('user.update');
+        Route::delete('', [UserController::class, 'destroy'])->name('user.destroy');
+    });
+    Route::post('events', [EventController::class, 'store'])->name('event.store');
+    Route::patch('events/{event}', [EventController::class, 'update'])->name('event.update');
+    Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
 });
