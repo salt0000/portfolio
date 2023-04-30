@@ -63,7 +63,7 @@ migrate:
 seed:
 	docker-compose exec php php artisan db:seed
 route:
-	docker-compose exec php php artisan route:list --except-vendor
+	docker-compose exec php php artisan route:list --except-vendor --except-path api/auth
 route-vendor:
 	docker-compose exec php php artisan route:list --only-vendor
 tinker:
@@ -80,7 +80,10 @@ require-dev:
 
 # Commands for altas
 inspect:
-	docker run --network=backend_default --rm -it arigaio/atlas:latest schema inspect -u "mysql://root:secret@mysql:3306/portfolio" --format "{{ sql . }}" > docker/mysql/dev/schema.sql
+	docker run --network=backend_default --rm -it arigaio/atlas:latest schema inspect -u "mysql://root:secret@mysql:3306/portfolio" --format "{{ sql . }}" > docker/mysql/initdb.d/schema.sql
+# create dev table in advance
+apply:
+	docker run --network=backend_default --rm -v "$$PWD/docker/mysql/initdb.d/schema.sql:/schema.sql" -it arigaio/atlas:latest schema apply -u "mysql://root:secret@mysql:3306/portfolio" --to "file://schema.sql" --dev-url "mysql://root:secret@mysql:3306/dev"
 schemaspy:
 	docker run --network=backend_default --rm -v "$$PWD/schemaspy_output:/output" schemaspy/schemaspy:latest -t mysql -host mysql -port 3306 -db portfolio -s portfolio -u root -p secret -connprops useSSL\\=false
 
