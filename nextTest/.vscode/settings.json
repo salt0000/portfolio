@@ -1,0 +1,19 @@
+{
+  "files.exclude": {
+    // "client/node_modules": true,
+    // "client/tsconfig.json": true,
+    // "client/package-lock.json": true,
+    // "client/README.md": true,
+    
+  },
+  "[javascript]": {
+      "editor.tabSize": 2,
+  },
+  "[typescriptreact]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+  },
+  "[css]": {
+      "editor.tabSize": 2,
+  },
+}
