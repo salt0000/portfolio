@@ -1,28 +1,36 @@
-# Overview
-portfolio project
+# Next.jsを使ったportfolioのクライアントアプリ
 
 
-# Environment
+## Local Environment
 ### Requirements
 - Docker
-### Recommend
+### Recommends
 - Intel Mac
 - VSCode
 
 
-# How to build app
+## How to build app
 ```
 make set-up
 ```
 
-# How to use commands for development
-### Launch the server
+
+## How to use make commands
+Launch the docker container
 ```
 make up
 ```
-### install package
+Start the dev server inside the container
 ```
-make install package=
+make run-dev
 ```
-### Other commands
-See Makefile
+Install package
+```
+make install name=
+```
+See Makefile for other commands
+
+
+## Documents
+- [Next.jsのディレクトリについて](docs/directory-config.md)
+- [開発メモ](docs/memo.md)

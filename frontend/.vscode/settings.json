@@ -1,19 +1,22 @@
 {
   "files.exclude": {
+    "client/.next": true,
+    "client/public": true,
+    "client/next-env.d.ts": true,
+    "client/.gitignore": true,
     "client/node_modules": true,
-    "client/tsconfig.json": true,
     "client/package-lock.json": true,
-    "client/README.md": true,
-    
   },
-  "[javascript]": {
-      "editor.tabSize": 2,
+  "[typescript]": {
+    "editor.tabSize": 2,
   },
   "[typescriptreact]": {
-      "editor.tabSize": 2,
-      "editor.insertSpaces": true
+    "editor.tabSize": 2,
   },
-  "[css]": {
-      "editor.tabSize": 2,
+  "[json]": {
+    "editor.tabSize": 2,
   },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }
